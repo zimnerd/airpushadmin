@@ -164,8 +164,8 @@ document.getElementById("type").onchange = function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/tostimul/appsmarketeers.com/portal/resources/js/coreui/menu-create.js */"./resources/js/coreui/menu-create.js");
-module.exports = __webpack_require__(/*! /home/tostimul/appsmarketeers.com/portal/resources/sass/style.scss */"./resources/sass/style.scss");
+__webpack_require__(/*! /Users/eddy/Developer/WEB/PHP/airpushadmin/resources/js/coreui/menu-create.js */"./resources/js/coreui/menu-create.js");
+module.exports = __webpack_require__(/*! /Users/eddy/Developer/WEB/PHP/airpushadmin/resources/sass/style.scss */"./resources/sass/style.scss");
 
 
 /***/ })

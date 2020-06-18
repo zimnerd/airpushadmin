@@ -18,7 +18,8 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>ID</th>
+                                    <th>Start</th>
+                                    <th>End</th>
                                     <th>Type</th>
                                     <th>Status</th>
                                     <th>Daily Budget</th>
@@ -38,8 +39,9 @@
                                 <tbody>
                                 @foreach($campaigns as $campaign)
                                     <tr>
-                                        <td><strong><a href="{{ url('/campaigns/' . $campaign->id) }}" class="">{{ $campaign->name }}</a></strong></td>
-                                        <td><strong>{{ $campaign->id }}</strong></td>
+                                        <td><strong><a href="{{ url('/campaigns/' . $campaign->id) }}" class="btn btn-block btn-outline-success">{{ $campaign->name }}</a></strong></td>
+                                        <td><strong>{{ substr($campaign->start,0,10)}}</strong></td>
+                                        <td><strong>{{ substr($campaign->end,0,10)}}</strong></td>
                                         <td>{{ $campaign->adformat->name }}</td>
                                         <td>
                                             @if ($campaign->status->name !== 'deleted' && $campaign->end < Carbon\Carbon::now())

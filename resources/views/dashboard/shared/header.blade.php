@@ -10,45 +10,6 @@
             FreelyPositionedMenus::render($appMenus['top menu'], 'c-header-');
         }
         ?>
-        @if (Auth::check())
-            <ul class="c-header-nav ml-auto mr-4">
-                <li class="c-header-nav-item dropdown"><a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <div class="c-avatar">
-                            <svg class="c-icon mr-2">
-                                <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-user"></use>
-                            </svg>
-                        </div>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right pt-0">
-                        <div class="dropdown-header bg-light py-2"><strong>Account</strong></div>
-                        <a class="dropdown-item" href="#">
-                            <svg class="c-icon mr-2">
-                                <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-bell"></use>
-                            </svg>
-                            Updates<span class="badge badge-info ml-auto">42</span></a>
-                        <div class="dropdown-header bg-light py-2"><strong>Settings</strong></div>
-                        <a class="dropdown-item" href="#">
-                            <svg class="c-icon mr-2">
-                                <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-user"></use>
-                            </svg>
-                            Profile</a><a class="dropdown-item" href="#">
-                            <svg class="c-icon mr-2">
-                                <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-settings"></use>
-                            </svg>
-                            Settings</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
-                            <svg class="c-icon mr-2">
-                                <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-account-logout"></use>
-                            </svg>
-                            <form action="/logout" method="POST"> @csrf
-                                <button type="submit" class="btn btn-ghost-dark btn-block">Logout</button>
-                            </form>
-                        </a>
-                    </div>
-                </li>
-            </ul>
-        @endif
         <div class="c-subheader px-3">
             <ol class="breadcrumb border-0 m-0">
                 <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>

@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="animated fadeIn">
             <div class="row">
-                <div class="col-sm-12 col-md-12">
+                <div class="col-sm-12 col-md-8 col-md-offset-2">
                     <div class="card">
                         <div class="card-header">
                             <i class="fa fa-align-justify"></i> {{ __('Create Campaign') }}
@@ -27,14 +27,20 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <div class="col-md-6">
+                                    <label>Custom Category <small> (Optional)</small></label>
+                                    <input class="form-control" type="text" placeholder="{{ __('Custom Category') }}" name="custom_category">
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <div class="col-md-6" style="padding-left:0 !important">
                                         <label>Start Date</label>
-                                        <input class="form-control" type="date" placeholder="{{ __('Start Date') }}" name="start" required autofocus>
+                                        <input class="form-control" type="date" placeholder="{{ __('Start Date') }}" name="start">
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6"  style="padding-left:0 !important">
                                         <label>End Date</label>
-                                        <input class="form-control" type="date" placeholder="{{ __('End Date') }}" name="end" required autofocus>
+                                        <input class="form-control" type="date" placeholder="{{ __('End Date') }}" name="end">
                                     </div>
                                 </div>
 
@@ -82,17 +88,6 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label>Status</label>
-                                    <select class="form-control" name="status_id" readonly>
-                                        @foreach($statuses as $status)
-                                            <option value="{{ $status->id }}" @if ($status->id == $selected) selected="selected"
-                                                @endif>{{ $status->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="form-group row">
                                     <label>Ad Format</label>
                                     <div class="col-md-12">
 
@@ -117,15 +112,15 @@
 
                                 <div class="form-group row">
                                     <label>Daily budget</label>
-                                    <input class="form-control" type="number" placeholder="{{ __('Daily budget') }}" name="daily_budget" required>
+                                    <input class="form-control" type="text" placeholder="{{ __('Daily budget') }}" name="daily_budget" required>
                                 </div>
 
                                 <div class="form-group row">
                                     <label>CPC Bid</label>
-                                    <input class="form-control current_bid" type="number" placeholder="{{ __('CPC Bid') }}" name="current_bid" required>
+                                    <input class="form-control current_bid" type="text" placeholder="{{ __('CPC Bid') }}" name="current_bid" required>
                                 </div>
                                 <div class="row mb-5">
-                                    Min Bid: R <span id="min_bid"></span>
+                                    Min Bid: $ <span id="min_bid"></span>
 
                                 </div>
 

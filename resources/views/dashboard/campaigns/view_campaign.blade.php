@@ -1,3 +1,13 @@
+<style>
+    td.column_name{
+        border: 3px solid #000 !important;
+    }
+    .table th, .table td {
+        padding: 0 5px !important;
+        vertical-align: middle !important;
+
+    }
+</style>
 @extends('dashboard.base')
 
 @section('content')
@@ -57,7 +67,7 @@
                                     @endif
                                     <td><strong>{{ $campaign->current_bid }}</strong></td>
                                     @if (count($campaign->creative)> 0)
-                                        <td><strong>{{ $campaign->creative->sum('spend')/ count($campaign->creative)}}</strong></td> @else
+                                        <td><strong>{{ round($campaign->creative->sum('spend')/ count($campaign->creative),2)}}</strong></td> @else
                                         <td><strong>Creatives missing</strong></td>
                                     @endif
                                     {{--                                    <td><strong>{{ $campaign->creative->sum("conversion") }}</strong></td>--}}
@@ -86,26 +96,25 @@
                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <div class="card">
                         <div class="card-header">
-                            <i class="fa fa-align-justify"></i> <h4>Creatives<span><a href="{{ route('creatives.create',['id'=>$campaign->id] ) }}" class="btn btn-primary m-2 float-right">{{ __('Add Creative') }}</a></span></h4></div>
+                            <i class="fa fa-align-justify"></i> <h4>Creatives <small>(Edit values in bordered cells below.)</small><span><a href="{{ route('creatives.create',['id'=>$campaign->id] ) }}" class="btn btn-primary m-2 float-right">{{ __('Add Creative') }}</a></span></h4></div>
                         <div class="card-body">
                             <div id="message"></div>
 
-                            <table class="table table-responsive-sm table-sm table-striped">
-                                <thead>
+                            <table class="table table-responsive-sm table-sm table-bordered table-striped">
+                                <thead class="bg-dark text-white">
                                 <tr>
                                     <th></th>
                                     <th>Creative Ad</th>
-                                    <th>Creative ID</th>
                                     <th>Status</th>
                                     <th>Creative URL</th>
                                     <th>Impressions</th>
                                     <th>Clicks</th>
                                     <th>CTR Avg.</th>
-                                    <th>Bid</th>
                                     <th>Spent</th>
-                                    <th>Conv.</th>
-                                    <th>Conv. Rate</th>
-                                    <th>CPA</th>
+{{--                                    <th>Conv.</th>--}}
+{{--                                    <th>Conv. Rate</th>--}}
+{{--                                    <th>CPA</th>--}}
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -113,7 +122,7 @@
                                     <tr>
                                         @if($creative->image_path !== null)
                                         <td>
-                                        <a href="{{url('storage/'.$creative->image_path)}}"><button class="btn-sm btn-success">
+                                        <a href="{{url('storage/'.$creative->image_path)}}"><button class="btn-xs btn-success">
                                             <svg class="c-icon">
                                             <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-cloud-download">{{$creative->image_path}}</use>
                                             </svg>
@@ -131,14 +140,13 @@
                                         <td></td>
                                         @endif
                                         <td>{{$creative->name}}</td>
-                                        <td>{{$creative->id}}</td>
                                         <td>
-                                            @if ($campaign->status->name !== 'deleted' && $campaign->end < Carbon\Carbon::now())
+                                            @if ($creative->status->name !== 'deleted' && $campaign->end < Carbon\Carbon::now())
                                                 <span class="badge badge-pill badge-primary">
                                       Expired
                                             @else
-                                                        <span class="{{ $campaign->status->class }}">
-                                      {{ $campaign->status->name }}
+                                                        <span class="{{ $creative->status->class }}">
+                                      {{ $creative->status->name }}
                                   </span>
                                             @endif
 
@@ -153,19 +161,45 @@
 
                                             <td>N/A</td>
                                         @endif
-                                        <td>{{$campaign->current_bid}}</td>
                                         <td @if ($isadmin) contenteditable class="column_name" data-column_name="spend" data-id="{{$creative->id}}" @endif>{{$creative->spend}}</td>
-                                        <td @if ($isadmin) contenteditable class="column_name" data-column_name="conversion" data-id="{{$creative->id}}" @endif>{{$creative->conversion}}</td>
-                                        @if ($creative->conversion >= 0 && $creative->clicks > 0)
-                                            <td><?= round(($creative->conversion / $creative->clicks) * 100, 2) ?> %</td>
-                                        @else
-                                            <td>N/A</td>
-                                        @endif
-                                        @if ($creative->spend >= 0 && $creative->clicks > 0)
-                                            <td><?= round(($creative->spend / $creative->clicks), 2)?></td>
-                                        @else
-                                            <td>N/A</td>
-                                        @endif
+
+                                        <td>
+                                            <div class="row no-gutters">
+                                                <div class="col-md-4 no-gutters">
+                                                    <form action="{{ route('creatives.edit_status', [$creative->id,'stopped']) }}" method="POST">
+                                                        @method('PUT')
+                                                        @csrf
+                                                        <button class="btn-xs btn-warning">
+                                                            <svg class="c-icon">
+                                                                <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-media-stop"></use>
+                                                            </svg>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                                <div class="col-md-4 no-gutters">
+                                                    <form action="{{ route('creatives.edit_status', [$creative->id,'ongoing']) }}" method="POST">
+                                                        @method('PUT')
+                                                        @csrf
+                                                        <button class="btn-xs btn-success">
+                                                            <svg class="c-icon">
+                                                                <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-media-play"></use>
+                                                            </svg>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                                <div class="col-md-4 no-gutters">
+                                                    <form action="{{ route('creatives.edit_status', [$creative->id,'deleted']) }}" method="POST">
+                                                        @method('PUT')
+                                                        @csrf
+                                                        <button class="btn-xs btn-danger">
+                                                            <svg class="c-icon">
+                                                                <use xlink:href="/assets/icons/coreui/free-symbol-defs.svg#cui-trash"></use>
+                                                            </svg>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -177,7 +211,7 @@
 
 
             </div>
-            <a href="{{ route('campaigns.index') }}" class="btn btn-block btn-primary">{{ __('Return') }}</a>
+            <a href="{{ route('campaigns.index') }}" class="btn  btn-primary">{{ __('Return') }}</a>
 
         </div>
     </div>

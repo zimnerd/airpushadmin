@@ -14,48 +14,56 @@
                                 @csrf
                                 <div class="form-group row">
                                     <label>Ad Name</label>
-                                    <input class="form-control" type="text" placeholder="{{ __('Name') }}" name="name" required autofocus>
+                                    <input class="form-control" type="text" placeholder="{{ __('Name') }}" name="name" value="{{ old('name') }}" required autofocus>
+                                    {!! $errors->first('name', '<p class="text-danger">:message</p>') !!}
                                 </div>
 
 
                                 <div class="form-group row">
                                     <label>Ad Title</label>
-                                    <input class="form-control" type="text" placeholder="{{ __('Title') }}" name="title" required>
+                                    <input class="form-control" type="text" placeholder="{{ __('Title') }}" name="title"  value="{{ old('title') }}" required>
+                                    {!! $errors->first('title', '<p class="text-danger">:message</p>') !!}
                                 </div>
 
 
                                 <div class="form-group row">
                                     <label>Ad Descriptive Text</label>
-                                    <input class="form-control" type="text" placeholder="{{ __('Descriptive Text') }}" name="description" required>
+                                    <input class="form-control" type="text" placeholder="{{ __('Descriptive Text') }}" name="description" value="{{ old('description') }}"  required>
+                                    {!! $errors->first('description', '<p class="text-danger">:message</p>') !!}
                                 </div>
 
                                 <div class="form-group row">
                                     <label>Ad Link</label>
-                                    <input class="form-control" value="http://" type="url" placeholder="{{ __('Ad Link') }}" name="link" required>
+                                    <input class="form-control"  type="url" placeholder="{{ __('Ad Link') }}" value="{{ old('link') }}"  name="link" required>
+                                    {!! $errors->first('link', '<p class="text-danger">:message</p>') !!}
                                 </div>
 
                                 <div class="form-group row">
                                     <label>Video Advertiser</label>
-                                    <input class="form-control" type="text" placeholder="{{ __('Advertiser') }}" name="advertiser" required>
+                                    <input class="form-control" type="text" placeholder="{{ __('Advertiser') }}" name="advertiser" value="{{ old('advertiser') }}"  required>
+                                    {!! $errors->first('link', '<p class="text-danger">:message</p>') !!}
                                 </div>
 
                                 <div class="form-group row">
                                     <label>Video Ad Type</label>
                                     <select class="form-control" name="vid_type" required id="vid_type">
                                         <option value="">Select Ad Types</option>
-                                        <option value="video_upload">Upload</option>
-                                        <option value="video_link">Video Url</option>
+                                        <option value="video_upload" {{(old('vid_type') == "video_upload"?'selected':'')}}>Upload</option>
+                                        <option value="video_link"  {{(old('vid_type') == "video_link"?'selected':'')}}>Video Url</option>
                                     </select>
+                                    {!! $errors->first('vid_type', '<p class="text-danger">:message</p>') !!}
                                 </div>
 
                                 <div class="form-group row" id="video_upload">
                                     <label>Ad Video</label>
-                                    <input disabled type="file" name="video_path"  id="video_upload_input" class="form-control">
+                                    <input  type="file" name="video_path"  value="{{ old('video_path') }}"  id="video_upload_input" class="form-control">
+                                    {!! $errors->first('video_path', '<p class="text-danger">:message</p>') !!}
                                 </div>
 
                                 <div class="form-group row" id="video_link">
                                     <label>Ad Video Link</label>
-                                    <input disabled class="form-control" id="video_link_input" value="" type="url" placeholder="{{ __('Video Link') }}" name="video_link">
+                                    <input  class="form-control" id="video_link_input" value="{{ old('video_link') }}"  type="url" placeholder="{{ __('Video Link') }}" name="video_link">
+                                    {!! $errors->first('video_link', '<p class="text-danger">:message</p>') !!}
                                 </div>
 
 
@@ -63,23 +71,24 @@
                                     <label>Ad Image Size</label>
                                     <select class="form-control" id="ad_image_size" name="ad_image_size" required>
                                         <option value="">Select Image Size</option>
-                                        <option value="Mobile (300x250)" data-width="300" data-height="250" id="300_250">Mobile (300x250)</option>
-                                        <option value="Mobile (300x250)" data-width="300" data-height="250" id="300_250">Mobile (300x250)</option>
-                                        <option value="Tablet (550x480)" data-width="550" data-height="480" id="550_480">Tablet (550x480)</option>
-                                        <option value="Mobile (320x480)" data-width="320" data-height="480" id="320_480">Mobile (320x480)</option>
-                                        <option value="Full Page Ads (320x480)" data-width="320" data-height="480" id="320_480">Full Page Ads (320x480)</option>
+                                        <option value="Mobile (300x250)"  {{(old('ad_image_size') == "Mobile (300x250)"?'selected':'')}} data-width="300" data-height="250" id="300_250">Mobile (300x250)</option>
+                                        <option value="Tablet (550x480)"  {{(old('ad_image_size') == "Tablet (550x480)" ?'selected':'')}} data-width="550" data-height="480" id="550_480">Tablet (550x480)</option>
+                                        <option value="Mobile (320x480)"  {{(old('ad_image_size') == "Mobile (320x480)"?'selected':'')}} data-width="320" data-height="480" id="320_480">Mobile (320x480)</option>
+                                        <option value="Full Page Ads (320x480)"  {{(old('ad_image_size') == "Full Page Ads (320x480)"?'selected':'')}}  data-width="320" data-height="480" id="320_480">Full Page Ads (320x480)</option>
                                     </select>
+                                    {!! $errors->first('ad_image_size', '<p class="text-danger">:message</p>') !!}
                                 </div>
 
                                 <div class="form-group row">
                                     <label>Ad Type</label>
                                     <select class="form-control" name="type" required>
                                         <option value="">Select Ad Types</option>
-                                        <option value="image">Image</option>
-                                        <option value="image_button">Image with button</option>
-                                        <option value="image_text">Image with text</option>
-                                        <option value="image_text_button">Image with text and button</option>
+                                        <option value="image"   {{(old('type') == "image"?'selected':'')}}>Image</option>
+                                        <option value="image_button"  {{(old('type') == "image_button"?'selected':'')}}>Image with button</option>
+                                        <option value="image_text"  {{(old('type') == "image_text"?'selected':'')}}>Image with text</option>
+                                        <option value="image_text_button"  {{(old('type') == "image_text_button"?'selected':'')}}>Image with text and button</option>
                                     </select>
+                                    {!! $errors->first('type', '<p class="text-danger">:message</p>') !!}
                                 </div>
 
 
@@ -87,29 +96,19 @@
                                     <label>Ad Devices</label>
                                     <select class="form-control" name="devices" required>
                                         <option value="">Select Device Types</option>
-                                        <option value="all">All Devices</option>
-                                        <option value="ios">iOS devices</option>
-                                        <option value="android">Android Devices</option>
+                                        <option value="all" {{(old('devices') == "all"?'selected':'')}}>All Devices</option>
+                                        <option value="ios" {{(old('devices') == "ios"?'selected':'')}}>iOS devices</option>
+                                        <option value="android" {{(old('devices') == "android"?'selected':'')}}>Android Devices</option>
                                     </select>
+                                    {!! $errors->first('devices', '<p class="text-danger">:message</p>') !!}
                                 </div>
 
                                 <div class="form-group row">
                                     <label>Ad Image</label>
-                                    <input type="file" name="image_path" required id="image_path" class="form-control">
+                                    <input type="file" name="image_path" value="{{ old('image_path') }}"  required id="image_path" class="form-control">
+                                    {!! $errors->first('image_path', '<p class="text-danger">:message</p>') !!}
                                 </div>
-
-
-                                <div class="form-group row">
-                                    <label>Status</label>
-                                    <select class="form-control" name="status_id" readonly>
-                                        @foreach($statuses as $status)
-                                            <option value="{{ $status->id }}" @if ($status->id == $selected) selected="selected"
-                                                @endif>{{ $status->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <input class="form-control" value="{{$campaign->id}}" type="hidden" name="campaign_id">
+                                <input class="form-control" value="{{$campaign->id}}"  type="hidden" name="campaign_id">
                                 <button class="btn btn-block btn-success" type="submit">{{ __('Save creative') }}</button>
                                 <a href="{{ url('/campaigns/' . $campaign->id) }}" class="btn btn-block btn-primary">{{ __('Return') }}</a>
                             </form>
@@ -127,14 +126,19 @@
         $(document).ready(function () {
             const parameters = <?=$campaign->adformat->parameters?>;
             console.log(parameters);
+            $('#video_upload').hide();
+            $('#video_link').hide();
             $('#vid_type').on('change', function () {
-                $('#video_upload_input').attr('disabled', true);
-                $('#video_link_input').attr('disabled', true);
+                $('#video_upload_input').hide();
+                $('#video_link_input').hide();
+                $('#video_upload').hide();
+                $('#video_link').hide();
                 const vid_type = $(this).children('option:selected').val();
                 console.log(vid_type);
                 if (vid_type.length > 3)
                 {
-                    $('#' + vid_type + '_input').attr('disabled', false);
+                    $('#' + vid_type + '_input').show();
+                    $('#' + vid_type + '').show();
                 }
 
             });

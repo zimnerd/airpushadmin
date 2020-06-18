@@ -1,4 +1,4 @@
 <footer class="c-footer">
-  <div> &copy; 2019.</div>
-  <div class="ml-auto">Designed by&nbsp;<a href="https://enaygano.co.za/">Eddy</a></div>
+  <div> &copy; 2020.</div>
+  <div class="ml-auto"></div>
 </footer>

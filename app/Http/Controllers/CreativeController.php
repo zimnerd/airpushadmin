@@ -10,6 +10,7 @@ use Faker\Provider\tr_TR\DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CreativeController extends Controller
 {
@@ -67,15 +68,8 @@ class CreativeController extends Controller
                 'link' => 'required',
                 'campaign_id' => 'required',
                 'vid_type' => 'required',
-                'status_id' => 'required',
-                'video_path' => 'required|mimes:mp4,mpeg,flv,wmv,mov,avi|max:10000'
+                'video_path.*' => 'required|mimes:mp4,mpeg,flv,wmv,mov,avi|max:10000'
             ]);
-
-            $file = $request->file('video_path');
-
-            $name = $request->input('name') . time() . '.' . $file->getClientOriginalExtension();
-
-            // $target_path = $path;
             $path = $request->video_path->store($path, 'public');
 
 
@@ -89,12 +83,8 @@ class CreativeController extends Controller
                 'title' => 'required',
                 'link' => 'required',
                 'campaign_id' => 'required',
-                'status_id' => 'required',
-                'image_path' => 'required|mimes:jpeg,png,jpg,bmp|max:4096'
+                'image_path.*' => 'required|mimes:jpeg,png,jpg,bmp|max:4096'
             ]);
-
-            $file = $request->file('image_path');
-            $name = $request->input('name') . time() . '.' . $file->getClientOriginalExtension();
             $path = $request->image_path->store($path, 'public');
 
         }
@@ -108,7 +98,6 @@ class CreativeController extends Controller
                 'link' => 'required',
                 'campaign_id' => 'required',
                 'vid_type' => 'required',
-                'status_id' => 'required',
                 'video_link' => 'required'
             ]);
 
@@ -122,11 +111,13 @@ class CreativeController extends Controller
                 'description' => 'required',
                 'title' => 'required',
                 'link' => 'required',
-                'campaign_id' => 'required',
-                'status_id' => 'required',
+                'campaign_id' => 'required'
             ]);
 
         }
+
+        $pendingStatus = Status::where('name', 'pending')
+            ->first()->id;
         $creative = new Creative();
         $creative->name = $request->input('name');
         $creative->title = $request->input('title');
@@ -139,7 +130,7 @@ class CreativeController extends Controller
         $creative->video_path = ($file_type === 'videos') ? $path : NULL;
         $creative->vid_type = $request->input('vid_type');
         $creative->video_link = $request->input('video_link');
-        $creative->status_id = $request->input('status_id');
+        $creative->status_id = $pendingStatus;
         $creative->campaign_id = $request->input('campaign_id');
         $creative->impressions = $request->input('impressions');
         $creative->clicks = $request->input('clicks');
@@ -179,6 +170,33 @@ class CreativeController extends Controller
     {
         //
     }
+
+    public function edit_status($id, $status)
+    {
+        $creative = Creative::withTrashed()->find($id);
+        if ($creative)
+        {
+            if($status == 'deleted'){
+
+            }
+            $data = [
+                'status_id' => Status::where('name', $status)->first()->id,
+                'updated_at' => Carbon::now(),
+                'deleted_at' => NULL
+            ];
+            DB::table('creatives')
+                ->where('id', $id)
+                ->update($data);
+
+            if($status == 'deleted'){
+            Creative::find($id)->delete();
+            }
+        }
+
+        return redirect()->back()->with('success', 'Successfully edited creative');
+    }
+
+
 
     /**
      * Update the specified resource in storage.

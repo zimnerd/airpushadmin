@@ -18,8 +18,9 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>ID</th>
                                     <th>Type</th>
+                                    <th>Start</th>
+                                    <th>End</th>
                                     <th>Status</th>
                                     <th>Daily Budget</th>
                                     <th>Impressions</th>
@@ -39,9 +40,10 @@
                                 <tbody>
                                 @foreach($campaigns as $campaign)
                                     <tr>
-                                        <td><strong><a href="{{ url('/campaigns/' . $campaign->id) }}" class="">{{ $campaign->name }}</a></strong></td>
-                                        <td><strong>{{ $campaign->id }}</strong></td>
+                                        <td><strong><a href="{{ url('/campaigns/' . $campaign->id) }}" class="btn btn-block btn-outline-success">{{ $campaign->name }}</a></strong></td>
                                         <td>{{ $campaign->adformat->name }}</td>
+                                        <td>{{ substr($campaign->start,0,10) }}</td>
+                                        <td>{{ substr($campaign->end,0,10) }}</td>
                                         <td>
                                             @if ($campaign->status->name !== 'deleted' && $campaign->end < Carbon\Carbon::now())
                                                 <span class="badge badge-pill badge-primary">
@@ -68,7 +70,7 @@
                                             <td><strong>N/A</strong></td>
                                         @endif
                                         <td><strong>{{ $campaign->current_bid }}</strong></td> @if (count($campaign->creative)> 0)
-                                            <td><strong>{{  $campaign->creative->sum('spend')/ count($campaign->creative) }}</strong></td>  @else
+                                            <td><strong>{{  round($campaign->creative->sum('spend')/ count($campaign->creative),2) }}</strong></td>  @else
                                             <td><strong>Creatives missing</strong></td>
                                         @endif
                                         {{--                                            <td><strong>{{ $campaign->creative->sum("conversion") }}</strong></td>--}}

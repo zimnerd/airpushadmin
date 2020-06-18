@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="animated fadeIn">
             <div class="row">
-                <div class="col-sm-12 col-md-12">
+                <div class="col-sm-12 col-md-8">
                     <div class="card">
                         <div class="card-header">
                             <i class="fa fa-align-justify"></i> {{ __('Edit') }}: {{ $campaign->name }}</div>
@@ -28,12 +28,12 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-left:0 !important">
                                         <label>Start Date</label>
                                         <input class="form-control" type="date" placeholder="{{ __('Start Date') }}" value="{{ date('yy-m-d', strtotime($campaign->start)) }}" name="start" required>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding-left:0 !important">
                                         <label>End Date</label>
                                         <input class="form-control" type="date" placeholder="{{ __('End Date') }}" value="{{ date('yy-m-d', strtotime($campaign->end)) }}" name="end" required>
                                     </div>
@@ -82,17 +82,6 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label>Status</label>
-                                    <select class="form-control" name="status_id" readonly>
-                                        @foreach($statuses as $status)
-                                            <option value="{{ $status->id }}" @if ($status->id == $campaign->status->id) selected="selected"
-                                                @endif>{{ $status->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="form-group row">
                                     <label>Ad Format</label>
                                     <div class="col-md-12">
 
@@ -131,7 +120,7 @@
                                     <input class="form-control current_bid" value="{{$campaign->current_bid}}" type="number" placeholder="{{ __('CPC Bid') }}" name="current_bid" required>
                                 </div>
                                 <div class="row mb-5">
-                                    Min Bid: R <span id="min_bid">{{$campaign->adformat->min_bid}}</span>
+                                    Min Bid: $ <span id="min_bid">{{$campaign->adformat->min_bid}}</span>
 
                                 </div>
 

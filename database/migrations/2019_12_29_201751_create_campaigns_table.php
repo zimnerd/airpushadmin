@@ -24,10 +24,11 @@ class CreateCampaignsTable extends Migration
             $table->string('geo_targeting');
             $table->string('day_parting');
             $table->string('devices');
+            $table->string('custom_category')->nullable();
             $table->unsignedBigInteger('ad_format_id');
             $table->string('traffic_source');
             $table->unsignedBigInteger('status_id');
-            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('category_id')->default(12);
             $table->unsignedBigInteger('user_id');
             $table->string('daily_budget')->nullable();
             $table->string('current_bid')->nullable();

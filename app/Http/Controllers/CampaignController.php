@@ -98,6 +98,8 @@ class CampaignController extends Controller
             'current_bid' => 'required',
 
         ]);
+        $pendingStatus = Status::where('name', 'pending')
+        ->first()->id;
         $user = auth()->user();
         $campaign = new Campaign();
         $campaign->start = $request->input('start');
@@ -107,8 +109,9 @@ class CampaignController extends Controller
         $campaign->day_parting = $request->input('day_parting');
         $campaign->devices = $request->input('devices');
         $campaign->ad_format_id = $request->input('ad_format_id');
-        $campaign->status_id = $request->input('status_id');
+        $campaign->status_id = $pendingStatus;
         $campaign->category_id = $request->input('category_id');
+        $campaign->custom_category = $request->input('custom_category');
         $campaign->traffic_source = $request->input('traffic_source');
         $campaign->daily_budget = $request->input('daily_budget');
         $campaign->current_bid = $request->input('current_bid');
@@ -180,6 +183,8 @@ class CampaignController extends Controller
             'daily_budget' => 'required',
             'current_bid' => 'required',
         ]);
+        $pendingStatus = Status::where('name', 'pending')
+            ->first()->id;
         $campaign = Campaign::withTrashed()->find($id);
         $campaign->start = $request->input('start');
         $campaign->end = $request->input('end');
@@ -187,7 +192,6 @@ class CampaignController extends Controller
         $campaign->geo_targeting = $request->input('geo_targeting');
         $campaign->day_parting = $request->input('day_parting');
         $campaign->devices = $request->input('devices');
-        $campaign->status_id = $request->input('status_id');
         $campaign->deleted_at = NULL;
         $campaign->category_id = $request->input('category_id');
         $campaign->traffic_source = $request->input('traffic_source');
